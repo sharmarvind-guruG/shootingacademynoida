@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Marksman Blog | Noida Shooting Hub</title>
+    <link href="https://fonts.googleapis.com" rel="stylesheet">
+    <style>
+        :root { --olympic-blue: #0081C8; --olympic-red: #EE334E; --dark: #121212; --bg-light: #fafafa; }
+        body { margin: 0; font-family: 'Montserrat', sans-serif; background: var(--bg-light); color: var(--dark); overflow-x: hidden; }
+
+        /* --- COMMON NAVIGATION --- */
+        .top-nav {
+            position: fixed; top: 0; width: 100%; height: 80px;
+            background: rgba(0,0,0,0.95); display: flex;
+            justify-content: space-between; align-items: center;
+            padding: 0 5%; z-index: 1001; box-sizing: border-box;
+        }
+        .logo h2 { color: white; margin: 0; font-family: 'Oswald'; }
+        .nav-links { display: flex; align-items: center; }
+        .nav-links a { color: white; text-decoration: none; margin: 0 15px; font-weight: bold; text-transform: uppercase; font-size: 13px; transition: 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--olympic-red); }
+        .call-btn { background: var(--olympic-red); color: white; padding: 12px 25px; border-radius: 50px; text-decoration: none; font-weight: bold; }
+
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+        .hamburger span { width: 25px; height: 3px; background: white; transition: 0.3s; }
+
+        /* --- BLOG LAYOUT --- */
+        .blog-container { max-width: 1200px; margin: 120px auto 50px auto; display: grid; grid-template-columns: 300px 1fr; gap: 40px; padding: 0 20px; }
+
+        /* Left Side Navigation (Sidebar) */
+        .sidebar { position: sticky; top: 100px; height: fit-content; }
+        .sidebar-box { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 25px; border: 1px solid #eee; }
+        .sidebar-box h4 { font-family: 'Oswald'; margin: 0 0 15px 0; border-bottom: 3px solid var(--olympic-blue); padding-bottom: 8px; text-transform: uppercase; }
+        
+        .search-box input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        
+        .cat-list { list-style: none; padding: 0; margin: 0; }
+        .cat-list li { padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
+        .cat-list a { text-decoration: none; color: #555; font-weight: 600; display: block; transition: 0.3s; }
+        .cat-list a:hover { color: var(--olympic-red); transform: translateX(5px); }
+
+        /* Blog Main Feed */
+        .section-title { font-family: 'Oswald'; font-size: 2.2rem; margin-bottom: 30px; text-transform: uppercase; border-left: 6px solid var(--olympic-red); padding-left: 15px; }
+        .blog-card { background: white; border-radius: 15px; overflow: hidden; display: flex; margin-bottom: 30px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
+        .blog-img { width: 35%; background-size: cover; background-position: center; min-height: 200px; }
+        .blog-body { padding: 25px; width: 65%; }
+        .blog-label { color: var(--olympic-blue); font-weight: 800; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+        .blog-body h3 { font-family: 'Oswald'; font-size: 1.8rem; margin: 10px 0; }
+        .blog-body p { color: #666; line-height: 1.6; font-size: 14px; }
+        .read-more { color: var(--olympic-red); text-decoration: none; font-weight: 700; font-size: 13px; }
+
+        /* --- MOBILE RESPONSIVE --- */
+        @media screen and (max-width: 900px) {
+            .blog-container { grid-template-columns: 1fr; margin-top: 100px; }
+            .sidebar { position: relative; top: 0; order: 2; }
+            .blog-card { flex-direction: column; }
+            .blog-img, .blog-body { width: 100%; }
+        }
+
+        @media screen and (max-width: 768px) {
+            .hamburger { display: flex; }
+            .nav-links { display: none; position: absolute; top: 80px; left: 0; width: 100%; background: rgba(0,0,0,0.95); flex-direction: column; padding: 20px 0; }
+            .nav-links.active { display: flex; }
+            .nav-links a { margin: 15px 0; font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- COMMON TOP NAV -->
+    <nav class="top-nav">
+        <a href="index.html" style="text-decoration: none;">
+            <div class="logo"><h2 style="color:white; margin:0;">NOIDA<span style="color:var(--olympic-red)">SHOOT</span></h2></div>
+        </a>
+        <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+        <div class="nav-links" id="nav-menu">
+            <a href="index.html#competitions">Competitions</a>
+            <a href="index.html#Noida_Academies">Academies</a>
+            <a href="blog.html" class="active">Blog</a>
+            <a href="#">Coaches</a>
+        </div>
+        
+    </nav>
+
+    <div class="blog-container">
+        <!-- LEFT SIDE NAVIGATION (Sidebar) -->
+        <aside class="sidebar">
+            <div class="sidebar-box">
+                <h4>Search</h4>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Find articles..." onkeyup="searchBlog()">
+                </div>
+            </div>
+
+            <div class="sidebar-box">
+                <h4>Categories</h4>
+                <ul class="cat-list">
+                    <li><a href="#" onclick="filterCat('all')">View All</a></li>
+                    <li><a href="#" onclick="filterCat('training')">Training Drills</a></li>
+                    <li><a href="#" onclick="filterCat('equipment')">Gear Reviews</a></li>
+                    <li><a href="#" onclick="filterCat('mental')">Mental Focus</a></li>
+                    <li><a href="#" onclick="filterCat('news')">Local News</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-box">
+                <h4>Top Posts</h4>
+                <ul class="cat-list">
+                    <li><a href="#">NRAI Safety Rules</a></li>
+                    <li><a href="#">Upcoming 2025 Trials</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- MAIN BLOG CONTENT -->
+        <main id="blog-feed">
+            <h2 class="section-title">Noida Shooting Insights</h2>
+
+            <!-- Post 1 -->
+            <article class="blog-card" data-cat="mental">
+                <div class="blog-img" style="background-image: url('https://placehold.co')"></div>
+                <div class="blog-body">
+                    <span class="blog-label">Mental Focus</span>
+                    <h3>The Zen of the 10m Air Pistol</h3>
+                    <p>Discover how local champions use breathing techniques to lower their heart rate during the final shots of a competition.</p>
+                    <a href="./blog-Article-Mental_Focus.html" class="read-more">CONTINUE READING →</a>
+                </div>
+            </article>
+
+            <!-- Post 2 -->
+            <article class="blog-card" data-cat="news">
+                <div class="blog-img" style="background-image: url('https://placehold.co')"></div>
+                <div class="blog-body">
+                    <span class="blog-label">Local News</span>
+                    <h3>UP State Championship Dates Announced</h3>
+                    <p>The upcoming trials for Noida-based shooters will be held at the Sector 51 range this September. Register before Aug 20th.</p>
+                    <a href="#" class="read-more">CONTINUE READING →</a>
+                </div>
+            </article>
+        </main>
+    </div>
+
+    <script>
+        // Hamburger Menu Logic
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+        hamburger.addEventListener('click', () => { navMenu.classList.toggle('active'); });
+
+        // Simple Local Search (Filters by title/text)
+        function searchBlog() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let cards = document.getElementsByClassName('blog-card');
+            for (let i = 0; i < cards.length; i++) {
+                let content = cards[i].innerText.toLowerCase();
+                cards[i].style.display = content.includes(input) ? "flex" : "none";
+            }
+        }
+
+        // Category Filter Logic
+        function filterCat(cat) {
+            let cards = document.getElementsByClassName('blog-card');
+            for (let i = 0; i < cards.length; i++) {
+                if (cat === 'all' || cards[i].getAttribute('data-cat') === cat) {
+                    cards[i].style.display = "flex";
+                } else {
+                    cards[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>

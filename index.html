@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noida Shooting Hub | Best Academies & Competitions</title>
+    <link href="https://fonts.googleapis.com" rel="stylesheet">
+    <style>
+        :root { --olympic-blue: #0081C8; --olympic-red: #EE334E; --dark: #121212; }
+        body { margin: 0; font-family: 'Montserrat', sans-serif; background: #f9f9f9; }
+
+        /* --- STICKY TOP NAV --- */
+        .top-nav {
+            position: fixed; top: 0; width: 100%; height: 80px;
+            background: rgba(0,0,0,0.9); display: flex;
+            justify-content: space-between; align-items: center;
+            padding: 0 5%; z-index: 1001; box-sizing: border-box;
+        }
+        .nav-links a { color: white; text-decoration: none; margin: 0 15px; font-weight: bold; text-transform: uppercase; font-size: 13px; }
+        .call-btn { background: var(--olympic-red); color: white; padding: 12px 25px; border-radius: 50px 0 0 50px; text-decoration: none; font-weight: bold; }
+
+        /* --- HERO CAROUSEL --- */
+        .carousel { position: relative; height: 85vh; width: 100%; overflow: hidden; margin-top: 0; }
+        .slide { 
+            position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 1.5s ease;
+            background-size: cover; background-position: center; display: flex; align-items: center;
+        }
+        .slide.active { opacity: 1; }
+        .hero-overlay { background: rgba(0,0,0,0.4); width: 100%; height: 100%; display: flex; align-items: center; padding-left: 10%; }
+        .hero-text h1 { font-family: 'Oswald'; font-size: 4.5rem; color: white; line-height: 0.9; margin: 0; }
+
+        /* --- STICKY SECTOR FILTER --- */
+        .filter-bar {
+            position: sticky; top: 80px; /* Sticks right below the top nav */
+            background: white; padding: 15px 0; z-index: 1000;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); text-align: center;
+        }
+        .filter-container { display: inline-flex; gap: 10px; }
+        .filter-btn { 
+            border: 2px solid #ddd; background: white; padding: 8px 18px; 
+            border-radius: 30px; cursor: pointer; font-weight: 700; transition: 0.3s;
+        }
+        .filter-btn.active, .filter-btn:hover { border-color: var(--olympic-blue); color: var(--olympic-blue); }
+
+        /* --- CONTENT SECTIONS --- */
+        .container { max-width: 1200px; margin: 50px auto; padding: 0 20px; }
+        .section-title { font-family: 'Oswald'; font-size: 2rem; border-left: 6px solid var(--olympic-red); padding-left: 15px; margin-bottom: 30px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
+
+        /* Competition Card */
+        .comp-card { background: var(--dark); color: white; padding: 25px; border-radius: 12px; position: relative; }
+        .comp-card .tag { position: absolute; top: 15px; right: 15px; background: var(--olympic-red); padding: 4px 10px; font-size: 11px; font-weight: bold; }
+
+        /* Academy Ad Card (Featured Logic) */
+        .academy-card { background: white; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); overflow: hidden; border: 1px solid #eee; }
+        .featured { grid-column: span 2; border: 2px solid gold; background: #fffdfc; }
+        .academy-img { height: 250px; background-size: cover; background-position: center; }
+        .academy-info { padding: 25px; }
+        .btn-visit { display: inline-block; padding: 10px 20px; background: var(--olympic-blue); color: white; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 15px; }
+
+	/* --- RESPONSIVE MEDIA QUERIES --- */
+
+/* Tablet & Smaller Laptops (Max-width: 1024px) */
+@media screen and (max-width: 1024px) {
+    .hero-text h1 { font-size: 3.5rem; }
+    .featured { grid-column: span 1; } /* Premium partner takes 1 col like the others */
+}
+
+/* Tablets Portrait (Max-width: 768px) */
+@media screen and (max-width: 768px) {
+    .top-nav { height: auto; padding: 15px 5%; flex-direction: column; gap: 15px; }
+    .nav-links { display: none; } /* Typically replaced by a hamburger menu */
+    .call-btn { border-radius: 50px; width: 100%; text-align: center; }
+    
+    .filter-bar { top: 0; } /* Adjust sticky position if nav changes height */
+    .filter-container { flex-wrap: wrap; justify-content: center; padding: 0 10px; }
+    
+    .hero-text h1 { font-size: 2.8rem; text-align: center; }
+    .hero-overlay { padding-left: 0; justify-content: center; }
+    
+    .grid { grid-template-columns: 1fr; } /* Force single column for all cards */
+}
+
+/* Mobile Phones (Max-width: 480px) */
+@media screen and (max-width: 480px) {
+    .hero-text h1 { font-size: 2.2rem; }
+    .carousel { height: 60vh; }
+    .section-title { font-size: 1.5rem; }
+    
+    .filter-btn { padding: 6px 12px; font-size: 11px; }
+    .academy-img { height: 180px; }
+}
+
+
+/* Hamburger Icon Styles */
+.hamburger {
+    display: none; /* Hidden on desktop */
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    z-index: 1002;
+}
+
+.hamburger span {
+    width: 25px;
+    height: 3px;
+    background: white;
+    transition: 0.3s;
+}
+
+/* Mobile adjustments (below 768px) */
+@media screen and (max-width: 768px) {
+    .hamburger { display: flex; }
+
+    .nav-links {
+        display: none; /* Hidden by default on mobile */
+        position: absolute;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        background: rgba(0,0,0,0.95);
+        flex-direction: column;
+        text-align: center;
+        padding: 20px 0;
+    }
+
+    .nav-links.active {
+        display: flex; /* Show when 'active' class is added via JS */
+    }
+
+    .nav-links a { margin: 15px 0; font-size: 18px; }
+}
+
+
+    </style>
+</head>
+<body>
+
+    <nav class="top-nav">
+    <div class="logo"><h2 style="color:white; margin:0;">NOIDA<span style="color:var(--olympic-red)">SHOOT</span></h2></div>
+    
+    <!-- NEW: Hamburger Button -->
+    <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- WRAPPER: Added ID for JS control -->
+    <div class="nav-links" id="nav-menu">
+        <a href="#">About</a> <a href="#Noida_Academies">Noida Academies</a> <a href="./blog.html">Blog</a> <a href="#competitions">Competitions</a>
+    </div>
+    
+    <a href="tel:+919690868182" class="call-btn">Call: +91 9690868182</a>
+</nav>
+
+
+    <div class="carousel">
+        <div class="slide active" style="background-image: url('images/header_target.png');">
+            <div class="hero-overlay">
+                <div class="hero-text"><h1>TRAIN WITH<br><span style="color:var(--olympic-red)">INT'L COACHES</span></h1></div>
+            </div>
+        </div>
+        <div class="slide" style="background-image: url('images/header_ShootingPistol.png');">
+            <div class="hero-overlay">
+                <div class="hero-text"><h1>PRECISION<br><span style="color:var(--olympic-blue)">EXCELLENCE</span></h1></div>
+            </div>
+        </div>
+	<div class="slide" style="background-image: url('images/header_shootingRange.png');">
+            <div class="hero-overlay">
+                <div class="hero-text"><h1>PRECISION<br><span style="color:var(--olympic-blue)">EXCELLENCE</span></h1></div>
+            </div>
+        </div>
+		<div class="slide" style="background-image: url('images/header_gun.png');">
+            <div class="hero-overlay">
+                <div class="hero-text"><h1>PRECISION<br><span style="color:var(--olympic-blue)">EXCELLENCE</span></h1></div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="filter-bar">
+        <div class="filter-container">
+            <strong>FILTER BY SECTOR:</strong>
+            <button class="filter-btn active">ALL</button>
+            <button class="filter-btn">SECTOR 51</button>
+            <button class="filter-btn">SECTOR 82</button>
+            <button class="filter-btn">SEC 122</button>
+            <button class="filter-btn">GREATER NOIDA</button>
+        </div>
+    </div>
+
+    <div class="container" >
+	<section id="competitions">
+        <h2 class="section-title">🏆 UPCOMING COMPETITIONS</h2>
+        <div class="grid">
+            <div class="comp-card">
+                <span class="tag">SPONSORED</span>
+                <h3>Noida District Championship</h3>
+                <p>📍 Sector 51 Shooting Range | 📅 Oct 25-30</p>
+                <a href="#" style="color:var(--olympic-red); text-decoration:none; font-weight:700;">REGISTER NOW →</a>
+            </div>
+        </div>
+	</section>
+
+        <br><br>
+
+        <h2 class="section-title" id="Noida_Academies">🎯 TOP ACADEMIES IN NOIDA</h2>
+        <div class="grid" >
+            <!-- FEATURED AD (High Payer) -->
+            <div class="academy-card featured">
+                <div class="academy-img" style="background-image: url('./images/academy/Apex_Shooting_Academy_Noida_Sector_47.png');"></div>
+                <div class="academy-info">
+                    <span style="color:gold; font-weight:bold;">PREMIUM PARTNER</span>
+                    <h2>Apex Achiever Academy</h2>
+                    <p>International ISSF Mentor • Olympic Grade Infrastructure • Noida, Sector 47</p>
+                    <a href="Apex-noida-shooting-academy-details.html" class="btn-visit">View Full Profile</a>
+                </div>
+            </div>
+
+            <!-- Standard Ad -->
+            <div class="academy-card">
+                <div class="academy-img" style="background-image: url('./images/academy/shootX_shooting_academy_noida.jpeg'); height:200px;"></div>
+                <div class="academy-info">
+                    <h3>ShootX Academy</h3>
+                    <p>Professional Air Rifle/Pistol Coaching • Noida, Sector 50</p>
+                    <a href="#" class="btn-visit">Details</a>
+                </div>
+            </div>
+	   <div class="academy-card">
+                <div class="academy-img" style="background-image: url('./images/academy/XcelShootingAcademyNoida.jpeg'); height:200px;"></div>
+                <div class="academy-info">
+                    <h3>XCEL Shooting Academy</h3>
+                    <p>Professional Air Rifle/Pistol Coaching • Noida, Sector 72</p>
+                    <a href="#" class="btn-visit">Details</a>
+                </div>
+	   </div>
+           <div class="academy-card">
+                <div class="academy-img" style="background-image: url('./images/academy/Shooting_Guru_Shooting_Academy_noida.jpeg'); height:200px;"></div>
+                <div class="academy-info">
+                    <h3>Shooting Guru Shooting Academy</h3>
+                    <p>Professional Air Rifle/Pistol Coaching • Noida, Sector 73</p>
+                    <a href="#" class="btn-visit">Details</a>
+                </div>
+	     </div>
+           <div class="academy-card">
+                <div class="academy-img" style="background-image: url('./images/academy/GunMatrix_Shooting_Academy_noida.jpeg'); height:200px;"></div>
+                <div class="academy-info">
+                    <h3>GunMatrix Shooting Academy</h3>
+                    <p>Professional Air Rifle/Pistol Coaching • Noida, Sector 51</p>
+                    <a href="#" class="btn-visit">Details</a>
+                </div>
+            </div>
+	</div>
+    </div>
+
+    <script>
+const slides = document.querySelectorAll('.slide');
+let currentSlide = 0;
+
+function nextSlide() {
+    slides[currentSlide].classList.remove('active');
+    currentSlide = (currentSlide + 1) % slides.length;
+    slides[currentSlide].classList.add('active');
+}
+setInterval(nextSlide, 5000); // Change image every 5 seconds
+
+
+const hamburger = document.getElementById('hamburger');
+const navMenu = document.getElementById('nav-menu');
+
+hamburger.addEventListener('click', () => {
+    navMenu.classList.toggle('active');
+    
+    // Optional: Animate the hamburger into an 'X'
+    hamburger.classList.toggle('is-open');
+});
+
+
+    </script>
+
+</body>
+</html>
