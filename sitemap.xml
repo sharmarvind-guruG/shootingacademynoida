@@ -10,7 +10,7 @@
   <!-- Blog List Page -->
   <url>
     <loc>http://shootingacademynoida.co.in/blog.html</loc>
-    <lastmod>2026-02-15</lastmod>
+    <lastmod>2026-02-19</lastmod>
     <priority>0.8</priority>
   </url>
 
@@ -23,6 +23,11 @@
   <url>
     <loc>http://shootingacademynoida.co.in/blog-Mastering-Focus-Heart-Rate-Drills.html</loc>
     <lastmod>2026-02-15</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>http://shootingacademynoida.co.in/blog-shooting-academy-fees-noida.html</loc>
+    <lastmod>2026-02-19</lastmod>
     <priority>0.7</priority>
   </url>
 
